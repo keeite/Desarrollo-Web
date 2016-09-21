@@ -225,3 +225,46 @@ function fecha(){
 	var cadena = "<div class=\"well\">" + weekday[date.getDay()] + ", " + day + " de " + monthName + " de " + year + "</div>";
 	document.getElementById("canvas").innerHTML = cadena;
 }
+
+function rangos(){
+
+	var a = prompt("Inserte el valor A");
+	var b = prompt("Inserte el valor B");
+
+	if (a == null || b == null) return;
+
+	a = Number(a);
+	b = Number(b);
+	
+	if(isNaN(a) || isNaN(b)) rangos();
+	if(Number(a)>Number(b)) rangos();
+	
+	var canvas = document.getElementById("canvas");
+	canvas.innerHTML =  "<h2 class=\"h2\">Numeros descendentes</h2><ul id=\"numerosdes\" class=\"pagination\"></ul>";
+	canvas.innerHTML += "<h2 class=\"h2\">Numeros ascendentes</h2><ul id=\"numerosasc\" class=\"pagination\"></ul>";
+	canvas.innerHTML += "<table id=\"sumas\" class=\"table table-striped\"></table>";
+	var ascendente = document.getElementById("numerosasc");
+	var descendente = document.getElementById("numerosdes");
+	var sumaTotales = 0;
+	var sumaImpar = 0;
+	var sumaPar = 0;
+	var numDescInicial = b;
+	
+	for(var i = a+1; i < b; i++){
+
+		sumaTotales += i;
+		numdescInicial--;
+
+		if(i%2 == 0){
+			sumaPar += i;
+		}else{
+			sumaImpar += i;
+		}
+
+		document.getElementById("sumas").innerHTML = "<tr><th>Sumas totales</th><th>Suma impar</th><th>Suma par</th></tr>" +
+													 "<tr><td>" + sumaTotales + "</td><td>" + sumaImpar + "</td><td>" + sumaPar + "</td></tr>";
+		ascendente.innerHTML += "<li><a href=\"#\">" + i + "</a></li>";	
+		descendente.innerHTML += "<li><a href=\"#\">" + numDescInicial + "</a></li>";
+
+	}
+}
