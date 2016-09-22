@@ -7,15 +7,16 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="exercises.js"></script>
+		<link rel="stylesheet" href="style.css" />
 	</head>
 	<body>
 		
-		<header class="container jumbotron">
+		<header class="container-fluid jumbotron">
 			<div class="row">
 				<h1 class="col-md-12">Ejercicios con JavaScript</h1>
 			</div>
 		</header>
-		<section class="container">
+		<section class="container-fluid">
 			<article class="row">
 				<div class="col-md-3">
 					<ul class="list-group">
@@ -28,12 +29,13 @@
 						<li class="list-group-item"><a href="#" onclick="ordenar()">Ordenar numeros</a></li>
 						<li class="list-group-item"><a href="#" onclick="fecha()">Formateo de fecha</a></li>
 						<li class="list-group-item"><a href="#" onclick="rangos()">Rangos de numeros</a></li>
+						<li class="list-group-item"><a href="#" onclick="tablasMultiplicar()">Tablas de multiplicar</a></li>
 					</ul>
 				</div>
-				<div id="canvas" class="col-md-9">
-					
-
-				</div>
+				<div id="canvas" class="col-md-9"></div>
+			</article>
+			<article class="row">
+				<div id="auxiliar" class="col-md-12"></div>
 			</article>
 		</section>
 	</body>

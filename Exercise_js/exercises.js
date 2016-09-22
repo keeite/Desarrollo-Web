@@ -237,7 +237,7 @@ function rangos(){
 	b = Number(b);
 	
 	if(isNaN(a) || isNaN(b)) rangos();
-	if(Number(a)>Number(b)) rangos();
+	if(Number(a) > Number(b)) rangos();
 	
 	var canvas = document.getElementById("canvas");
 	canvas.innerHTML =  "<h2 class=\"h2\">Numeros descendentes</h2><ul id=\"numerosdes\" class=\"pagination\"></ul>";
@@ -249,7 +249,7 @@ function rangos(){
 	var sumaImpar = 0;
 	var sumaPar = 0;
 	var numDescInicial = b;
-	
+
 	for(var i = a+1; i < b; i++){
 
 		sumaTotales += i;
@@ -266,5 +266,33 @@ function rangos(){
 		ascendente.innerHTML += "<li><a href=\"#\">" + i + "</a></li>";	
 		descendente.innerHTML += "<li><a href=\"#\">" + numDescInicial + "</a></li>";
 
+	}
+}
+
+function tablasMultiplicar(){
+
+	var canvas = document.getElementById("auxiliar");
+	var valor = 1;
+
+	for (var row = 0; row < 10; row++){
+
+		canvas.innerHTML += "<div id=\"row" + row + "\" class=\"row\"><div>";
+		var rowHTML = document.getElementById("row" + row);
+
+		for (var col = 0; col < 10; col++) {
+
+			rowHTML.innerHTML += "<div id=\"col" + valor + "\" class=\"tabla col-md-1 col-sm-2 col-xs-3\"></div>";
+			var colHTML = document.getElementById("col" + valor);
+			var tabla= "<table class=\"table table-bordered\">";
+			
+			for(var i = 0; i<= 10;i++){
+				var resultado = valor * i;
+				tabla += "<tr><td class=\"small\"> " + valor + " x " + i + " = " + resultado + "</td></tr>";
+			}
+
+			tabla += "</table>";
+			colHTML.innerHTML = tabla; 
+			valor++;		
+		}
 	}
 }
