@@ -253,7 +253,7 @@ function rangos(){
 	for(var i = a+1; i < b; i++){
 
 		sumaTotales += i;
-		numdescInicial--;
+		numDescInicial--;
 
 		if(i%2 == 0){
 			sumaPar += i;
@@ -295,4 +295,32 @@ function tablasMultiplicar(){
 			valor++;		
 		}
 	}
+}
+
+function divisores(){
+	var input = prompt("introduce un numero entero");
+	if (input == null || input === "") return;
+	
+	var number = Number(input);
+	if(isNaN(number)) divisores();
+
+	number = Math.floor(number);
+	var numbers = new Array();
+	
+	(function divisor(n){
+		if(n == 1){
+			numbers.push(n);
+			return;
+		}
+
+		if(number % n == 0) numbers.push(n);
+		divisor(n-1);
+	})(number);
+
+	var canvas = document.getElementById("canvas");
+	canvas.innerHTML =  "<h2 class=\"h2\">Divisores</h2><ul id=\"divisores\" class=\"pagination\"></ul>";
+	var drawNumbers = document.getElementById("divisores");
+	
+	for(var i in numbers) drawNumbers.innerHTML += "<li><a href=\"#\">" + numbers[i] + "</a></li>";
+	
 }
