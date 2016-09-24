@@ -346,3 +346,33 @@ function primos(){
 		if(num > 0) calc(num -1); 
 	})(number);
 }
+
+function factorial(){
+
+	var number = prompt("Introduce un numero positivo");
+	if(number == null || number === "") return;
+	number = Number(number);
+	if(isNaN(number)) factorial();
+
+	var numero = new Array();
+	(function calc(num) {
+		if(num == 1) return 1;
+		var result = num * calc(num - 1);
+		numero.push(result);
+		return result;
+	})(number);
+
+	document.getElementById("canvas").innerHTML = "<table id=\"table\" class=\"table table-bordered\"></table>";
+	var table = document.getElementById("table");
+
+	for(var i = 0; i < numero.length; i++){
+		var multi = i + 2;
+		if(i == 0) {
+			table.innerHTML += "<tr><td>1 x " + multi  + " = " + numero[i] + "</td></tr>";
+		}else{
+			table.innerHTML += "<tr><td>" + numero[i-1] + " x " + multi  + " = " + numero[i] + "</td></tr>";
+		}
+	}
+
+	table.innerHTML += "<tr><td>Resultado: " + numero[numero.length-1] + "</td></tr>";
+}
