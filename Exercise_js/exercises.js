@@ -322,5 +322,27 @@ function divisores(){
 	var drawNumbers = document.getElementById("divisores");
 	
 	for(var i in numbers) drawNumbers.innerHTML += "<li><a href=\"#\">" + numbers[i] + "</a></li>";
+}
+
+
+function primos(){
+
+	var number = prompt("Introduce un numero positivo");
+	if(number == null || number === "") return;
+	number = Number(number);
+	if(isNaN(number)) primos();
+
+	document.getElementById("canvas").innerHTML += "<h2 class=\"h2\">Numeros primos</h2><ul id=\"numeros\" class=\"pagination\"></ul>";
+	var primosHTML = document.getElementById("numeros"); 
 	
+	(function calc(num){
+		var tries = 0;
+		for( var i = num; i > 0; i--){
+
+			if(num%i == 0) tries++;
+		}
+
+		if(tries == 2) primosHTML.innerHTML += "<li><a href=\"#\">" + num + "</a></li>";
+		if(num > 0) calc(num -1); 
+	})(number);
 }
