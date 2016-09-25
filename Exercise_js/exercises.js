@@ -463,3 +463,47 @@ function sustituciones(){
 	content += "<h2 class=\"h2\">Resultado</h2><p>" + a + "</p>";
 	document.getElementById("canvas").innerHTML = content;
 }
+
+function romanos(){
+
+	var input = prompt("inserte un numero");
+	if(input == null || input === "") return;
+
+	number = Number(input);
+	
+	if(isNaN(number)){
+		number = toDecimal(input);
+	}else{
+		number = romanize(number);
+	}
+
+	function romanize(num) {
+  		var lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1};
+      	var roman = "";
+      	
+  		for (var i in lookup ) {
+    		while ( num >= lookup[i] ) {
+      		roman += i;
+      		num -= lookup[i];
+    		}
+  		}
+  		return roman;
+	}
+	function toDecimal(number){
+	 	var decimal = 0;
+        var lastNumber = 0;
+        number = number.toUpperCase();
+        var romanicNumbers = {M:1000,D:500,C:100,X:10,V:5,I:1};
+        var char;
+        for (var x = number.length - 1; x >= 0 ; x--) {
+            char = number.charAt(x);
+
+         	decimal = lastNumber > decimal ? decimal - romanicNumbers[char] : decimal + romanicNumbers[char] ;
+         	lastNumber = romanicNumbers[char];
+
+        }
+  	    return decimal;
+    }
+
+    document.getElementById("canvas").innerHTML = "<div class=\"well well-sm\">" + number + "</div>";
+}
