@@ -403,3 +403,38 @@ function estadisticas(){
 
 	document.getElementById("canvas").innerHTML = table;	
 }
+
+function palindromo(){
+	var input = prompt("Introduce un numero positivo");
+	if(input == null || input === "") return;
+
+	var words = input.split(" ");
+	var reverse = input.split(" ").reverse().join(" ");
+	var twoIntwo = input.match(/.{1,2}/g).reverse().join("");
+	var content = "<h2 class=\"h2\">Palindromos</h2>";
+	content += "<ul class=\"pagination\">";
+
+	// ------ Comprobacion de palindromos-----------------
+	for(var i in words){
+
+		var j = Math.floor(words[i].length/2-1); //Obtiene el indice que esta antes de la mitad.
+		
+		var word = words[i];
+		
+		if(word === null) continue; // si meto algun espacio no lo revisa.
+		word = word.match(/.{1}/g);
+		var matches = 0;
+				
+		for(var z = j; z>=0; z--) if(word[z] === word[word.length-1-z]) matches++;
+		
+		if(matches > j) content += "<li><a href=\"#\">" + words[i] + "</a></li>";
+	}
+	//------- fin de comprobacion --------
+	content += "</ul>";
+	content += "<h2 class=\"h2\">Frase del reves de 2 en 2</h2>";
+	content += "<div class=\"well well-sm\">" + twoIntwo + "</div>";
+	content += "<h2 class=\"h2\">Frase del reves por palabras</h2>";
+	content += "<div class=\"well well-sm\">" + reverse + "</div>";
+
+	document.getElementById("canvas").innerHTML = content;
+}
