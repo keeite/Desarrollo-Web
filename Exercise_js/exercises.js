@@ -533,3 +533,18 @@ function descuentos(){
 		else if(stock > 200)  alert("El descuento es de 7% = " + (precio*0.93));
 	}
 }
+
+function trim(){
+
+	var precio = prompt("introduce el precio del articulo");
+	if(precio == null || precio === "") return;
+
+
+	var output = "";
+	for(var i = 0; i < precio.length; i++){
+
+		if(precio.charAt(i) != " ") output += precio.charAt(i);
+	}
+
+	alert(output);
+}
