@@ -438,3 +438,28 @@ function palindromo(){
 
 	document.getElementById("canvas").innerHTML = content;
 }
+
+function sustituciones(){
+
+	var a = prompt("Introduce la cadena A");
+	if( a === "" || a == null) return;
+	var b = prompt("Introduce la cadena B");
+	if( b === "" || b == null) return;
+	var c = prompt("Introduce la cadena C");
+	if( c === "" || c == null) return;
+
+	var content = "<h2 class=\"h2\">Cadena A</h2><p>" + a + "</p>";
+	content += "<h2 class=\"h2\">Cadena B</h2><p>" + b + "</p>";
+	content += "<h2 class=\"h2\">Cadena C</h2><p>" + c + "</p>";
+	var arrayB = new Array();
+	b = b.split(" ");
+	
+	for(var i in b)	if(a.match(b[i]) != null)  arrayB.push(a.match(b[i]));
+		
+	c = c.split(" ");
+
+	for(var i in arrayB) a = a.replace(arrayB[i].join(""),c[i]);
+	
+	content += "<h2 class=\"h2\">Resultado</h2><p>" + a + "</p>";
+	document.getElementById("canvas").innerHTML = content;
+}
