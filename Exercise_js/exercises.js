@@ -376,3 +376,30 @@ function factorial(){
 
 	table.innerHTML += "<tr><td>Resultado: " + numero[numero.length-1] + "</td></tr>";
 }
+
+function estadisticas(){
+
+	var input = prompt("Introduce un numero positivo");
+	if(input == null || input === "") return;
+	
+	var map = {"Caracteres":null,"Palabras":null,"Digitos" :null,
+			   "Minusculas" : null,"Mayusculas" : null,"Simbolos" : null};
+
+	var words = input.replace(/\d*/g,"").split(/  */g);
+	for(var i in words) if(words[i] === "") words.splice(0,1);
+
+	map["Caracteres"] = input.length;
+	map["Palabras"] = words.length;
+	map["Digitos"] = input.replace(/\D*/g,"").length;
+	map["Minusculas"] = input.replace(/[^a-z]*/g,"").length;
+	map["Mayusculas"] = input.replace(/[^A-Z]*/g,"").length;
+	map["Simbolos"] = input.replace(/[0-9a-zA-Z\s]*/g,"").length;
+	
+	var table = "<table class=\"table table-bordered\">";
+
+	for(var i in map) table += "<tr><td>" + i + "</td><td>" + map[i] + "</td></tr>";
+	
+	table += "</table>";
+
+	document.getElementById("canvas").innerHTML = table;	
+}
