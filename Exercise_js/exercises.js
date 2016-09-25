@@ -507,3 +507,29 @@ function romanos(){
 
     document.getElementById("canvas").innerHTML = "<div class=\"well well-sm\">" + number + "</div>";
 }
+
+function descuentos(){
+
+	var precio = prompt("introduce el precio del articulo");
+	if(precio == null || precio === "") return;
+	precio = Number(precio);
+	if(isNaN(precio)) descuentos();
+
+	var stock = prompt("introduce la cantidad de stock");
+	if(stock == null || stock === "") return;
+	stock = Number(stock);
+	if(isNaN(stock)) descuentos();
+
+	if(precio < 100){
+		if(stock < 10) alert("El descuento es de 2% = " + (precio*0.98));
+		else if(stock < 100) alert("El descuento es de 10% = " + (precio*0.9));
+		else if(stock < 1000) alert("El descuento es de 25% = " + (precio*0.75));
+	}else if(precio < 1000){
+		if(stock < 10) alert("El descuento es de 4% = " + (precio*0.96));
+		else if(stock < 1000)  alert("El descuento es de 8% = " + (precio*0.92));
+	}else {
+		if(stock < 100) alert("El descuento es de 3% = " + (precio*0.97));
+		else if(stock <= 200) alert("El descuento es de 5% = " + (precio*0.95));
+		else if(stock > 200)  alert("El descuento es de 7% = " + (precio*0.93));
+	}
+}
