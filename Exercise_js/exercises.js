@@ -379,7 +379,7 @@ function factorial(){
 
 function estadisticas(){
 
-	var input = prompt("Introduce un numero positivo");
+	var input = prompt("Introduce una frase");
 	if(input == null || input === "") return;
 	
 	var map = {"Caracteres":null,"Palabras":null,"Digitos" :null,
@@ -405,7 +405,7 @@ function estadisticas(){
 }
 
 function palindromo(){
-	var input = prompt("Introduce un numero positivo");
+	var input = prompt("Introduce una frase");
 	if(input == null || input === "") return;
 
 	var words = input.split(" ");
@@ -466,7 +466,7 @@ function sustituciones(){
 
 function romanos(){
 
-	var input = prompt("inserte un numero");
+	var input = prompt("inserte un numero romano o decimal");
 	if(input == null || input === "") return;
 
 	number = Number(input);
@@ -536,14 +536,14 @@ function descuentos(){
 
 function trim(){
 
-	var precio = prompt("introduce el precio del articulo");
-	if(precio == null || precio === "") return;
+	var input = prompt("introduce una frase");
+	if(precio == null || input === "") return;
 
 
 	var output = "";
-	for(var i = 0; i < precio.length; i++){
+	for(var i = 0; i < input.length; i++){
 
-		if(precio.charAt(i) != " ") output += precio.charAt(i);
+		if(input.charAt(i) != " ") output += input.charAt(i);
 	}
 
 	alert(output);
@@ -560,13 +560,17 @@ function temperaturas(){
 		content += "<tr><td>" + i + "</td><td>" + t.toFixed(2) + "</td></tr>";
 	}
 
-	content += "</talbe>";
+	content += "</table>";
 	document.getElementById("canvas").innerHTML = content;
 }
 
 function discurso(){
 
-	var input = 42;
+	var input = prompt("Introduce un numero positivo");
+	if(input == null || input === "") return;
+	input = Number(input);
+	if(isNaN(input)) discurso();
+
 	var grupoUno = ["No obstante",
 					"Por otra parte",
 					"Asimismo",
@@ -628,7 +632,7 @@ function discurso(){
 						"de los elementos generadores.",
 						"de toda una serie de criterios ideológicamente sistematizados en un frente común de actuación regeneradora."];
 
-	var discurso = "Me gustaría comenzar este discurso destacando que";
+	var discurso = "<p>Me gustaría comenzar este discurso destacando que";
 
 	var num1,num2,num3,num4;
 	function randomizer(){
@@ -644,7 +648,7 @@ function discurso(){
 		randomizer();
 		var dot = Math.floor(Math.random()*2);
 
-		if(counter >= 5 && dot) discurso += "\n\n";
+		if(counter >= 5 && dot) discurso += "</p><p>";
 
 		if(counter != 0 && counter < input) discurso += " " + grupoUno[num1];
 		counter++;
@@ -655,14 +659,96 @@ function discurso(){
 		if(counter < input) discurso += " " + grupoCuatro[num4];
 		counter++;
 	}
+	discurso += "</p>";
+	document.getElementById("canvas").innerHTML =  discurso;
+}
 
-	console.log(discurso);
+function tablaMultiplicada(){
+	var input1 = prompt("Introduce el numero de filas");
 
-	function generateFirst(){
+	var input2 = prompt("Introduce el numero de columnas");
 
 
+	var content = "<table class=\"table table-bordered\">";
+	
+	for(var i = 1; i <= input1; i++){
+		content += "<tr>";
 
+		for (var j = 1; j <= input2; j++) {
+			var res = i*j;
+			content += "<td>" + res + "</td>"; 
+			
+		}
+		content += "</tr>";
 	}
 
+	content += "</table>";
+	document.getElementById("canvas").innerHTML = content;
+}
 
+function factura(){
+	
+	var factura = { "id": 12546565,
+					"fecha": "26/09/2016",
+					"cliente": {
+						"nombre": "Berto Romero",
+						"direccion": "C/ Alcala",
+						"NIF": "54698785A",
+						"telefono": 963698752,
+						"cuenta_pago": 25466587855452122
+					},
+					"productos": [{
+						"producto": {
+							"codigo": 12346546,
+							"descripcion": "Champu pro V"
+						},
+						"cantidad": 2,
+						"precioUnidad": 1.25,
+						"precioTotal": 2.50
+					}, {
+						"producto": {
+							"codigo": 2546452,
+							"descripcion": "Detergente ropa suave"
+						},
+						"cantidad": 3,
+						"precioUnidad": 1,
+						"precioTotal": 3},
+					{
+						"producto": {
+							"codigo": 12454625,
+							"descripcion": "Patatas fritas Lays 25g"
+						},
+						"cantidad": 5,
+						"precioUnidad": 0.25,
+						"precioTotal": 1.25
+					}
+						],
+					"sumaImporte": 6.75,
+					"iva": 25,
+					"totalIva": 8.44,
+					"fechaVencimiento": "26/09/2016"};
+
+
+	var table = "<table class=\"table table-bordered\">";
+
+	table += "<tr><td><b>Nº Factura</b> " + factura.id + "</td><td><b>Fecha:</b> " + factura.fecha + "</td></tr>";
+	table += "<tr><th>Nombre</th><th>Direccion</th><th>NIF o CIF</th><th>Telefono</th><th>Cuenta de pago</th></tr>";
+	table += "<tr><td>" + factura.cliente.nombre + "</td><td>" + factura.cliente.direccion + "</td><td>" + factura.cliente.NIF + 
+			 "</td><td>" + factura.cliente.telefono + "</td><td>" + factura.cliente.cuenta_pago + "</td></tr>";
+   	table += "<tr><th>Codigo</th><th>Descripcion</th><th>Cantidad</th><th>Precio/Unidad</th><th>Precio Total</th></tr>";
+
+
+   	for(var i  in factura.productos){
+   		table += "<tr><td>" + factura.productos[i].producto.codigo + "</td><td>" + factura.productos[i].producto.descripcion + 
+   				 "</td><td>" + factura.productos[i].cantidad + "</td><td>" + factura.productos[i].precioUnidad + "</td><td>" + factura.productos[i].precioTotal + "</td></tr>";
+   	}
+   
+   	table += "<tr><td colspan=\"3\"></td><th>Fecha Vencimiento</th><td>" + factura.fechaVencimiento + "</td></tr>";
+	table += "<tr><td colspan=\"3\"></td><th>Suma Importe</th><td>" + factura.sumaImporte + "</td></tr>";
+	table += "<tr><td colspan=\"3\"></td><th>Iva Aplicabe</th><td>" + factura.iva + "%</td></tr>";
+	table += "<tr><td colspan=\"3\"></td><th>Total con IVA</th><td>" + factura.totalIva + "</td></tr>";
+   	table += "</table>";
+
+
+   	document.getElementById("canvas").innerHTML = table;
 }
