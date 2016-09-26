@@ -332,7 +332,7 @@ function primos(){
 	number = Number(number);
 	if(isNaN(number)) primos();
 
-	document.getElementById("canvas").innerHTML += "<h2 class=\"h2\">Numeros primos</h2><ul id=\"numeros\" class=\"pagination\"></ul>";
+	document.getElementById("canvas").innerHTML = "<h2 class=\"h2\">Numeros primos</h2><ul id=\"numeros\" class=\"pagination\"></ul>";
 	var primosHTML = document.getElementById("numeros"); 
 	
 	(function calc(num){
@@ -547,4 +547,122 @@ function trim(){
 	}
 
 	alert(output);
+}
+
+
+function temperaturas(){
+
+	var content = "<table style=\"width: auto !important\" class=\"table table-bordered\">";
+	content += "<tr><th>°Celsius</th><th>°Fahrenheit</th></tr>";
+
+	for(var i = -100; i<=100; i++){
+		var t = i * 1.8 + 32;
+		content += "<tr><td>" + i + "</td><td>" + t.toFixed(2) + "</td></tr>";
+	}
+
+	content += "</talbe>";
+	document.getElementById("canvas").innerHTML = content;
+}
+
+function discurso(){
+
+	var input = 42;
+	var grupoUno = ["No obstante",
+					"Por otra parte",
+					"Asimismo",
+					"Sin embargo no hemos de olvidar que",
+					"De igual manera",
+					"La práctica prueba que",
+					"Y no es menos cierto que",
+					"Las experiencias, ricas y diversas, muestran que",
+					"Y aún así",
+					"No obstante",
+					"Incluso, bien pudiéramos atrevernos a sugerir que",
+					"Es obvio señalar que",
+					"De hecho",
+					"También cabe añadir en este punto que"];
+
+	var grupoDos = ["la realización de las premisas del programa",
+					"la complejidad de los estudios de los dirigentes",
+					"el aumento constante, en cantidad y en extensión, de nuestra actividad",
+					"la estructura actual de la organización",
+					"el nuevo modelo de actividad de la organización",
+					"el desarrollo continuo de distintas formas de actividad",
+					"nuestra actividad de información y propaganda",
+					"el reforzamiento y desarrollo de las estructuras",
+					"la consulta con los numerosos militantes",
+					"el inicio de la acción general de formación de las actitudes",
+					"un relanzamiento específico de todos los sectores implicados",
+					"la superación de experiencias difíciles",
+					"una aplicación indiscriminada de los factores confluyentes",
+					"el proceso consensuado de unas y otras aplicaciones concurrentes"];
+
+	var grupoTres = ["nos obliga a un exhaustivo análisis",
+					 "cumple un rol esencial en la formación",
+					 "exige la precisión y la determinación",
+					 "ayuda a la preparación y a la realización",
+					 "garantiza la participación de un grupo importante en la formación",
+					 "cumple deberes importantes en la determinación",
+					 "facilita la creación",
+					 "obstaculiza la apreciación de la importancia",
+					 "ofrece un ensayo interesante de verificación",
+					 "implica el proceso de reestructuración y modernización",
+					 "habrá de significar un auténtico y eficaz punto de partida",
+					 "permite en todo caso explicitar las razones fundamentales",
+					 "asegura, en todo caso, un proceso muy sensible de inversión",
+					 "deriva de una manera indirecta",
+					 "dirige hacia la incidencia superadora"];
+
+	var grupoCuatro = [ "de las condiciones financieras y administrativas existentes.",
+						"de las directivas de desarrollo para el futuro.",
+						"del sistema de participación general.",
+						"de las actitudes de los miembros hacia sus deberes ineludibles.",
+						"de las nuevas proposiciones.",
+						"de las direcciones educativas en el sentido del progreso.",
+						"del sistema de formación de cuadros que corresponda a las necesidades.",
+						"de las condiciones de las actividades apropiadas.",
+						"del modelo de desarrollo.",
+						"de las formas de acción.",
+						"de las básicas premisas adoptadas.",
+						"de toda una casuística de amplio espectro.",
+						"de los elementos generadores.",
+						"de toda una serie de criterios ideológicamente sistematizados en un frente común de actuación regeneradora."];
+
+	var discurso = "Me gustaría comenzar este discurso destacando que";
+
+	var num1,num2,num3,num4;
+	function randomizer(){
+		num1 = Math.floor(Math.random() * grupoUno.length);
+		num2 = Math.floor(Math.random() * grupoDos.length);
+		num3 = Math.floor(Math.random() * grupoTres.length);
+		num4 = Math.floor(Math.random() * grupoCuatro.length);
+	}
+
+	var counter = 0;
+
+	while(counter < input && input > 1){
+		randomizer();
+		var dot = Math.floor(Math.random()*2);
+
+		if(counter >= 5 && dot) discurso += "\n\n";
+
+		if(counter != 0 && counter < input) discurso += " " + grupoUno[num1];
+		counter++;
+		if(counter < input) discurso += " " + grupoDos[num2];
+		counter++;
+		if(counter < input) discurso += " " + grupoTres[num3];
+		counter++;
+		if(counter < input) discurso += " " + grupoCuatro[num4];
+		counter++;
+	}
+
+	console.log(discurso);
+
+	function generateFirst(){
+
+
+
+	}
+
+
 }
