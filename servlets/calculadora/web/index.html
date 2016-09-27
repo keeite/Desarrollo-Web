@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    </head>
+    <body class="container">
+        <section class="row" style="margin-top: 25%">
+            <article class="col-md-4 col-md-offset-4">
+                <form class="form-horizontal" method="GET" action="calculadora">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="num1">Numero 1:</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="num1" placeholder="Introduce un numero entero" name="num1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="num2">Numero 2:</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="num2" placeholder="Introduce un numero entero" name="num2">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-5" for="sel1">Elige operacion:</label>
+                        <div class="col-sm-7">
+                            <select class="form-control" id="sel1" name="op">
+                                <option value="sumar">Sumar</option>
+                                <option value="restar">Restar</option>
+                                <option value="multiplicar">Multiplicar</option>      
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group"> 
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-default btn-block">Obtener datos</button>
+                        </div>
+                    </div>
+                </form> 
+
+            </article>
+
+        </section>
+    </body>
+</html>

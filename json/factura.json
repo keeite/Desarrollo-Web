@@ -1,18 +1,40 @@
-{ "id":12546565,
-  "fecha" : "2016/09/26",
-  "cliente" : {"nombre" : "Berto Romero",
-			   "direccion" : "C/ Alcala",
-			   "NIF" : "54698785A",
-			   "cuenta_pago" : 25466587855452122},
-  "productos" :[{"producto" : {"codigo" : 12346546, "descripcion": "Champu pro V"},
-				 "cantidad" : 2,
-				 "precioUnidad" : 1.25,
-				 "precioTotal" : 2.50},
-				{"producto" : {"codigo" : 2546452, "descripcion": "Detergente ropa suave"},
-				 "cantidad" : 3,
-				 "precioUnidad" : 1,
-				 "precioTotal" : 3}],
-  "sumaImporte" : 5.50,
-  "iva" : 25,
-  "totalIva" : 6.875,
-  "fechaVencimiento" : "2016/09/26"}
+{ 	"id": 12546565,
+	"fecha": "26/09/2016",
+	"cliente": {
+		"nombre": "Berto Romero",
+		"direccion": "C/ Alcala",
+		"NIF": "54698785A",
+		"telefono": 963698752,
+		"cuenta_pago": 25466587855452122
+	},
+	"productos": [{
+		"producto": {
+			"codigo": 12346546,
+			"descripcion": "Champu pro V"
+		},
+		"cantidad": 2,
+		"precioUnidad": 1.25,
+		"precioTotal": 2.50
+	}, {
+		"producto": {
+			"codigo": 2546452,
+			"descripcion": "Detergente ropa suave"
+		},
+		"cantidad": 3,
+		"precioUnidad": 1,
+		"precioTotal": 3},
+	{
+		"producto": {
+			"codigo": 12454625,
+			"descripcion": "Patatas fritas Lays 25g"
+		},
+		"cantidad": 5,
+		"precioUnidad": 0.25,
+		"precioTotal": 1.25
+	}
+		],
+	"sumaImporte": 6.75,
+	"iva": 25,
+	"totalIva": 8.44,
+	"fechaVencimiento": "26/09/2016"
+}
