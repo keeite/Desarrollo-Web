@@ -4,3 +4,6 @@
 /servlets/calculadora/build/
 /servlets/cuadrante/nbproject/private/
 /servlets/cuadrante/build/
+/servlets/cuadrante jsonHTML/build/
+/servlets/cuadrante jsonHTML/dist/
+/servlets/carrito/nbproject/private/

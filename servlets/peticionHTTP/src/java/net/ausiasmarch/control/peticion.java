@@ -83,7 +83,7 @@ public class peticion extends HttpServlet {
             out.println("<h2>Paramentros</h2>");
             
             String params = "<table class=\"table table-striped\">";
-            params += "<tr><th>Cabecera</th><th>Valor</th></tr>";
+            params += "<tr><th>Parametro</th><th>Valor</th></tr>";
             
             List<String> namesParams = new ArrayList();
             
