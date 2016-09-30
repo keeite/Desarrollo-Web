@@ -30,7 +30,7 @@ public class Cuadrante extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        
         try (PrintWriter out = response.getWriter()) {
 
             int col = Integer.valueOf(request.getParameter("col"));
@@ -42,10 +42,12 @@ public class Cuadrante extends HttpServlet {
     
             switch (type) {
                 case "json":
+                    response.setContentType("application/json;charset=UTF-8");
                     content = getJson(row, col);
                     reqDispatcher = getServletConfig().getServletContext().getRequestDispatcher("/json.jsp");
                     break;
                 case "html":
+                    response.setContentType("text/html;charset=UTF-8");
                     content = getHtml(row, col);
                     reqDispatcher = getServletConfig().getServletContext().getRequestDispatcher("/html.jsp");
                     break;
@@ -78,7 +80,7 @@ public class Cuadrante extends HttpServlet {
 
     private String getJson(int row, int col) {
 
-        String json = "\n{\n";
+        String json = "{";
 
         for (int i = 1; i <= row; i++) {
             json += "\"row" + i + "\" : {\n";
@@ -91,7 +93,7 @@ public class Cuadrante extends HttpServlet {
 
         }
 
-        json += "\n}";
+        json += "}";
 
         return json;
     }

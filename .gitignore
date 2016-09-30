@@ -7,3 +7,5 @@
 /servlets/cuadrante jsonHTML/build/
 /servlets/cuadrante jsonHTML/dist/
 /servlets/carrito/nbproject/private/
+/servlets/carrito/build/
+/servlets/carrito/dist/
