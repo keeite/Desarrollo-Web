@@ -44,7 +44,7 @@ public class Producto {
     }
     
     public String getJson(){      
-        return "{\n\t\"id\":" + id + ",\n\t\"desc\":\"" + desc + "\",\n\t\"amount\":" + amount + ",\n\t\"price\":" + price + "\n}";
+        return "{\"id\":" + id + ",\"desc\":\"" + desc + "\",\"amount\":" + amount + ",\"price\":" + price + "}";
     }
     public Producto clone(){ 
         return new Producto(id,desc,amount,price);

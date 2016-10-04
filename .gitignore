@@ -9,3 +9,8 @@
 /servlets/carrito/nbproject/private/
 /servlets/carrito/build/
 /servlets/carrito/dist/
+/carrito/build/
+/carrito/dist/
+/carrito/nbproject/private/
+/carritoGson/nbproject/private/
+/servlets/carritoGson/target/

@@ -22,22 +22,17 @@ import net.ausiasmarch.model.Producto;
  */
 public class Processor extends HttpServlet {
 
-    HttpSession session;
-    Stock stock;
-    Carro carro;
-    List<Carro> checkOuts;
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            session = request.getSession();
+            HttpSession session = request.getSession();
             
             
             
-            carro = session.getAttribute("carro") == null ? new Carro() : (Carro) session.getAttribute("carro");
-            stock = session.getAttribute("stock") == null ? new Stock() : (Stock) session.getAttribute("stock");
-            checkOuts = session.getAttribute("checkOuts") == null ? new ArrayList<>() : (List<Carro>) session.getAttribute("checkOuts");
+            Carro carro = session.getAttribute("carro") == null ? new Carro() : (Carro) session.getAttribute("carro");
+            Stock stock = session.getAttribute("stock") == null ? new Stock() : (Stock) session.getAttribute("stock");
+            List<Carro> checkOuts = session.getAttribute("checkOuts") == null ? new ArrayList<>() : (List<Carro>) session.getAttribute("checkOuts");
     
             session.setAttribute("carro", carro);
             session.setAttribute("stock", stock);
@@ -49,7 +44,7 @@ public class Processor extends HttpServlet {
 
             if (ob.equalsIgnoreCase("product")) {
                 if (op.equalsIgnoreCase("list")) {
-                    json = getStock();
+                    json = getStock(stock);
                 }
 
             } else if (ob.equalsIgnoreCase("cart")) {
@@ -58,25 +53,25 @@ public class Processor extends HttpServlet {
                     case "add":
                         id = Integer.parseInt(request.getParameter("id"));
                         Integer amount = Integer.parseInt(request.getParameter("amount"));
-                        json = add(id, amount);
+                        json = add(id, amount,carro,stock);
                         break;
                     case "list":
-                        json = getCarrito();
+                        json = getCarrito(carro);
                         break;
                     case "drop":
                         id = Integer.parseInt(request.getParameter("id"));
-                        json = drop(id);
+                        json = drop(id,carro);
                         break;
                     case "empty":
-                        json = empty();
+                        json = empty(carro);
                         break;
                     case "checkout":
-                        json = checkOut();
+                        json = checkOut(stock,carro,checkOuts,session);
                         break;
                 }
             } else if (ob.equalsIgnoreCase("purchases")) {
                 if (op.equalsIgnoreCase("list")) {
-                    json = getPurchases();
+                    json = getPurchases(checkOuts);
                 }
             } else if(ob.equalsIgnoreCase("close")){
                 session.invalidate();
@@ -87,15 +82,15 @@ public class Processor extends HttpServlet {
         }
     }
 
-    private String getStock() {
+    private String getStock(Stock stock) {
         return stock.getJson();
     }
 
-    private String getCarrito() {
+    private String getCarrito(Carro carro) {
         return carro.getJson();
     }
 
-    private String add(Integer id, Integer amount) {
+    private String add(Integer id, Integer amount,Carro carro,Stock stock) {
         Producto p = null;
         if(id == null || amount == null) return "{\"status\":409,\"message\":\"Error\"}";
         for (Producto i : carro) {
@@ -124,7 +119,7 @@ public class Processor extends HttpServlet {
         return "{\"status\":409,\"message\":\"Not there Enough\"}";
     }
 
-    private String drop(int id) {
+    private String drop(int id,Carro carro) {
         Producto p = null;
         for (int i = 0; i < carro.size(); i++) {
             if (carro.get(i).getId() == id) {
@@ -135,12 +130,12 @@ public class Processor extends HttpServlet {
         return p == null ? "{\"status\":403,\"message\":\"Item no found\"}" : "{\"status\":200,\"message\":\"Item droped\"}";
     }
 
-    private String empty() {
+    private String empty(Carro carro) {
         carro.clear();
         return "{\"status\":200,\"Items droped\"}";
     }
 
-    private String checkOut() {
+    private String checkOut(Stock stock,Carro carro,List<Carro> checkOuts,HttpSession session) {
 
         int counter = 0;
 
@@ -167,16 +162,15 @@ public class Processor extends HttpServlet {
         return "{\"status\":409,\"message\":\"Not there Enough\"}";
     }
 
-    private String getPurchases() {
-        String json = "{";
-        System.out.println("get " + checkOuts.size());
+    private String getPurchases(List<Carro> checkOuts) {
+        String json = "{\"Status\" : 200, \"Message\" : [";
         for (int i = 0; i < checkOuts.size(); i++) {
 
-            json += "\"purchase_" + i + "\" : " + checkOuts.get(i).getJson();
+            json += checkOuts.get(i).getJsonPurchases();
             json += i == checkOuts.size() - 1 ? "" : ",";
         }
 
-        json += "}";
+        json += "]}";
         return json;
     }
 

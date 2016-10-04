@@ -25,12 +25,12 @@ public class Stock extends ArrayList<Producto> {
      
     public String getJson(){
         
-        String json = "[";
+        String json = "{\"Status\" : 200, \"Message\" : [";
         
         for(int i = 0; i < this.size(); i++){
             json += i == this.size() - 1 ? this.get(i).getJson(): this.get(i).getJson() + "," ;   
         }
-        json += "]";
+        json += "]}";
         return json;
     }
 }
