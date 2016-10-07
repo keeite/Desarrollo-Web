@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.ausiasmarch.control;
+package com.mycompany.carritomaven.control;
 
 import java.util.ArrayList;
-import net.ausiasmarch.model.Producto;
-
+import com.mycompany.carritomaven.model.Producto;
 /**
  *
  * @author Dani

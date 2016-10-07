@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>	
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>        
+        <script>
+            function tablaMultiplicada(info) {
+                var content = "<table class=\"table table-bordered\">";
+              
+                for (var i = 0; i < info.message.rows.length; i++) {
+                    content += "<tr>";
+                    var col = info.message.rows[i].cols.length;
+                    for (var j = 0; j < col; j++) {
+                        content += "<td>" + info.message.rows[i].cols[j] + "</td>";
+                    }
+                    content += "</tr>";
+                }
+
+                content += "</table>";
+                $("#table").html(content);
+            }
+            
+            $(document).ready(function(){
+                $("#boton").on("click",procesar);
+            });
+             
+            function procesar(){
+                var row = $("#rows").val();
+                var col = $("#cols").val();
+                if(row == "" || col == "") return false;
+                if(isNaN(row) || isNaN(col)) return false;
+                
+                $.ajax({
+                    url : "Cuadrante",
+                    type: "GET",
+                    dataType: "json",
+                    data: $("form").serialize(),
+                    success: function(source){
+                        tablaMultiplicada(source);
+                    },
+                    error: function(source){
+                        alert("error");
+                    }
+                });
+                
+                return false;
+                
+            }
+
+        </script>
+    </head>
+    <body class="container">
+        <section class="row">
+            <article class="col-md-8 col-md-offset-2" style="margin-top:15%">
+                <h3 class="h3 text-center">Cuadrante de multiplicacion con AJAX</h3>
+                <form class="form-inline text-center">
+                    <div class="form-group">
+                        <label for="rows">Filas: </label>
+                        <input type="number" class="form-control" id="rows" name="rows">
+                    </div>
+                    <div class="form-group">
+                        <label for="cols">Columnas:</label>
+                        <input type="number" class="form-control" id="cols" name="cols">
+                    </div>
+                    <input type="submit" class="btn btn-default" id="boton" value="Procesar">
+                </form>
+            </article>
+        </section>
+        <section class="row">
+            <article class="col-md-12" style="margin-top:5%" id="table"></article>
+        </section>
+    </body>
+</html>
