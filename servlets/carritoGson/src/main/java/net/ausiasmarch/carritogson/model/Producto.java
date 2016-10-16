@@ -10,17 +10,32 @@ package net.ausiasmarch.carritogson.model;
  * @author a044887852v
  */
 public class Producto {
-    private int id,amount,price;
+    private int id,amount;
+    private float price;
     private String desc;
     
-    public Producto(int id,String desc,int amount,int price){
+    public Producto(int id,String desc,int amount,float price){
         this.id = id;
         this.amount = amount;
         this.desc = desc;
         this.price = price;
     }
+    public Producto(){}
+    
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public int getAmount() {
@@ -31,21 +46,14 @@ public class Producto {
         return desc;
     }
     
-    public int getPrice(){
+    public float getPrice(){
         return price;
     }
     
-    public String getJsonMin(){      
-        return "{\"id\":" + id +", \"amount\": " + amount + "}";
-    }
-
     public void setAmount(int amount) {
         this.amount = amount;
     }
-    
-    public String getJson(){      
-        return "{\n\t\"id\":" + id + ",\n\t\"desc\":\"" + desc + "\",\n\t\"amount\":" + amount + ",\n\t\"price\":" + price + "\n}";
-    }
+       
     public Producto clone(){ 
         return new Producto(id,desc,amount,price);
     }
