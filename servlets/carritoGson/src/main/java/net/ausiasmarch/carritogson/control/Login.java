@@ -51,12 +51,12 @@ public class Login extends HttpServlet {
                 json.put("status", 200);
                 BoneCpConnection cp = new BoneCpConnection();
                 Connection conn = cp.getConnection();
-                String name = "SELECT id,password FROM users WHERE username = ?";
+                String query = "SELECT id,password FROM users WHERE username = ?";
                 int id = -1;
-                PreparedStatement ps = conn.prepareStatement(name);
+                PreparedStatement ps = conn.prepareStatement(query);
                 ps.setString(1, request.getParameter("username"));
                 ResultSet rs = ps.executeQuery();
-                
+                String name = null;
                 while(rs.next()){
                     name = rs.getString("password");
                     id = rs.getInt("id");

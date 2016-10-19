@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.3
+-- version 4.6.4
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 14-10-2016 a las 11:27:33
--- Versión del servidor: 5.6.32
--- Versión de PHP: 5.6.25
+-- Tiempo de generación: 16-10-2016 a las 18:46:42
+-- Versión del servidor: 5.6.33
+-- Versión de PHP: 5.6.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `mishop`
 --
-CREATE DATABASE IF NOT EXISTS `mishop` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
-USE `mishop`;
 
 -- --------------------------------------------------------
 
@@ -46,6 +44,14 @@ CREATE TABLE `pedidos` (
   `userId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+--
+-- Volcado de datos para la tabla `pedidos`
+--
+
+INSERT INTO `pedidos` (`id`, `userId`) VALUES
+(1, 1),
+(2, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -59,6 +65,19 @@ CREATE TABLE `stock` (
   `amount` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+--
+-- Volcado de datos para la tabla `stock`
+--
+
+INSERT INTO `stock` (`id`, `description`, `price`, `amount`) VALUES
+(1, 'Pirutelas', 5, 11),
+(2, 'Chicles', 0.3, 25),
+(5, 'Rosquilletas', 1.25, 13),
+(6, 'Leche', 0.95, 7),
+(7, 'Yogur', 1.3, 16),
+(8, 'Galletas', 1.85, 28),
+(9, 'Coca Cola 33cl', 0.56, 23);
+
 -- --------------------------------------------------------
 
 --
@@ -70,6 +89,13 @@ CREATE TABLE `users` (
   `username` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`) VALUES
+(1, 'Dani', '4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2');
 
 --
 -- Índices para tablas volcadas
@@ -109,17 +135,17 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Restricciones para tablas volcadas
 --

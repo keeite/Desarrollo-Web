@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import net.ausiasmarch.carritogson.control.dao.StockDAO;
+import net.ausiasmarch.carritogson.model.Pedido;
 import net.ausiasmarch.carritogson.model.Producto;
 
 /**
@@ -27,7 +28,7 @@ import net.ausiasmarch.carritogson.model.Producto;
 public class Processor extends HttpServlet {
    
     Gson gson = new Gson();
-
+    StockDAO stDAO = new StockDAO();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
@@ -37,7 +38,7 @@ public class Processor extends HttpServlet {
             
             
             List<Producto> carro = session.getAttribute("carro") == null ? new ArrayList() : (List<Producto>) session.getAttribute("carro");
-            
+            int userId = (int) session.getAttribute("userId");
             session.setAttribute("carro", carro);
             
             
@@ -47,7 +48,7 @@ public class Processor extends HttpServlet {
 
             if (ob.equalsIgnoreCase("product")) {
                 if (op.equalsIgnoreCase("list")) {
-                    json = getMessageJson(200,new StockDAO().getStock());
+                    json = getMessageJson(200,stDAO.getStock());
                 }
 
             } else if (ob.equalsIgnoreCase("cart")) {
@@ -59,7 +60,7 @@ public class Processor extends HttpServlet {
                         json = add(id, amount,carro);
                         break;
                     case "list":
-                        json = getCarrito(carro);
+                        json = getMessageJson(200,carro);
                         break;
                     case "drop":
                         id = Integer.parseInt(request.getParameter("id"));
@@ -69,12 +70,12 @@ public class Processor extends HttpServlet {
                         json = empty(carro);
                         break;
                     case "checkout":
-                        //json = checkOut(stock,carro,checkOuts,session);
+                        json = checkOut(carro,userId);
                         break;
                 }
             } else if (ob.equalsIgnoreCase("purchases")) {
                 if (op.equalsIgnoreCase("list")) {
-                    //json = getPurchases(checkOuts);
+                    json = getPurchases(userId);
                 }
             } else if(ob.equalsIgnoreCase("close")){
                 session.invalidate();
@@ -87,15 +88,13 @@ public class Processor extends HttpServlet {
 
     
 
-    private String getCarrito(List<Producto> carro) {
-        return getMessageJson(200,carro);
-    }
+    
 
     private String add(Integer id, Integer amount,List<Producto> carro) {
         
         if(id == null || amount == null) return getMessageJson(409,"Error");
         
-        Producto p = new StockDAO().getProducto(id);
+        Producto p = stDAO.getProducto(id);
         
         if(p.getAmount() >= amount){
             p.setAmount(amount);
@@ -122,35 +121,21 @@ public class Processor extends HttpServlet {
         return getMessageJson(200,"Items droped");
     }
 
-//    private String checkOut(Stock stock,List<Producto> carro,List<List<Producto>> checkOuts,HttpSession session) {
-//
-//        int counter = 0;
-//
-//        for (Producto s : stock) {
-//            for (Producto c : carro) {
-//                if (c.getId() == s.getId() && c.getAmount() <= s.getAmount()) {
-//                    counter++;
-//                }
-//            }
-//        }
-//
-//        if (counter == carro.size()) {
-//            checkOuts.add(carro);
-//            
-//            for (Producto s : stock) {
-//                for (Producto c : carro) {
-//                    if (c.getId() == s.getId()) s.setAmount(s.getAmount() - c.getAmount());
-//                }
-//            }
-//            session.setAttribute("stock", stock);
-//            session.setAttribute("carro", new ArrayList<Producto>());
-//            return getMessageJson(200,"CheckOut OK");
-//        }       
-//        return getMessageJson(409,"Not there Enough");
-//    }
+    private String checkOut(List<Producto> carro,int userId) {
 
-    private String getPurchases(List<List<Producto>> checkOuts) {
-        return getMessageJson(200,checkOuts);
+        if(stDAO.checkout(carro, userId)){
+            return getMessageJson(200,"CheckOut OK");
+        }else{
+            return getMessageJson(409,"CheckOut Fail");
+        }
+    }
+
+    private String getPurchases(int userId) {
+        List<Pedido> pedidos = stDAO.getCheckouts(userId);
+        if(pedidos == null){
+            return getMessageJson(404,"Not found");
+        }
+        return getMessageJson(200,pedidos);
     }
 
    

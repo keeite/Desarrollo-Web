@@ -9,7 +9,6 @@ import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 import java.sql.Connection;
 import java.sql.SQLException;
-import com.mysql.jdbc.Driver;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,7 +47,8 @@ public class BoneCpConnection {
             c =  poolConnections.getConnection();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-        }        
+        }   
+        
         return c;
     }
 }

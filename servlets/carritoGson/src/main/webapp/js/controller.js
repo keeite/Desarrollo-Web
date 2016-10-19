@@ -96,8 +96,8 @@ function fillStock() {
                 content += '<div>';
                 content += '<p>Precio ' + data.message[i].price + '€</p>';
                 content += '<form class="form-inline add" id="f' + data.message[i].id + '">';
-                content += '<input class="form-control amount" type="number" name="amount">';
-                content += '<button class="btn btn-success" id="b' + data.message[i].id + '">añadir</button>';
+                content += '<input class="form-control amount input-sm" type="number" name="amount">';
+                content += '<button class="btn btn-success input-sm" id="b' + data.message[i].id + '">añadir</button>';
                 content += '</form></div></article></section>';
                 $("#stock").append(content);
                 $("#b" + data.message[i].id + "").on("click", data.message[i], function (data) {
@@ -111,7 +111,7 @@ function fillStock() {
                         type: "GET",
                         dataType: "json",
                         data: datos,
-                        success: function(data) {
+                        success: function (data) {
                             switch (data.message) {
                                 case "Item added" :
                                     alert("producto añadido");
@@ -121,7 +121,7 @@ function fillStock() {
                                     break;
                             }
                         },
-                        error: function(data) {
+                        error: function (data) {
 
                         }
 
@@ -148,8 +148,8 @@ function closeSession() {
         dataType: "json",
         data: "ob=close",
         success: function (data) {
-            if(data.message == "Session Closed"){
-                $(location).attr("href","index.jsp");
+            if (data.message == "Session Closed") {
+                $(location).attr("href", "index.jsp");
             }
         },
         error: function (data) {
@@ -157,4 +157,81 @@ function closeSession() {
         }
 
     });
+}
+function getCarrito() {
+    $.ajax({
+        url: "processor",
+        type: "GET",
+        dataType: "json",
+        data: "ob=cart&op=list",
+        success: function (data) {
+            for (var i = 0; i < data.message.length; i++) {
+                $("#b" + data.message[i].id).on("click", data.message[i], function (p) {
+                    $.ajax({
+                        url: "processor",
+                        type: "GET",
+                        dataType: "json",
+                        data: "ob=cart&op=drop&id=" + p.data.id,
+                        success: function (data) {
+                            if (data.message == "Item droped") {
+                                $("#tr" + p.data.id).empty();
+                            }
+                        }
+                    });
+                });
+            }
+        },
+        error: function (data) {
+
+        }
+
+    });
+}
+
+function checkout(){
+    
+    $.ajax({
+        url:"processor",
+        type: "GET",
+        dataType:"json",
+        data: "ob=cart&op=checkout",
+        success: function(data){
+            if(data.message == "CheckOut OK"){
+                var content= '<div class="alert alert-success">';
+                content += "<strong>Bien!</strong> La compra ha sido satisfactoria.</div>";
+                $("#content").empty().append(content);
+            }else{
+                alert(data.message);
+            }
+        }
+    });
+    
+    
+}
+
+function getCheckouts(){
+    
+    $.ajax({
+        url:"processor",
+        type: "GET",
+        dataType:"json",
+        data: "ob=purchases&op=list",
+        success: function(data){
+            if(data.status == 200){
+                $("#pedidos").empty();
+               for(var i = 0; i < data.message.length; i++){
+                   var pedido = data.message[i];
+                   var content = "<tr>";
+                   content += "<td>" + pedido.id + "</td>";
+                   content += "<td>" + pedido.date + "</td>";
+                   content += "<td>" + pedido.amountItems + "</td>";
+                   content += "<td>" + pedido.totalPrice * 1.21 + "</td>";
+                   content += "</tr>";
+                   $("#pedidos").append(content);
+               }
+            }else{
+                alert(data.message);
+            }
+        }
+    });   
 }
