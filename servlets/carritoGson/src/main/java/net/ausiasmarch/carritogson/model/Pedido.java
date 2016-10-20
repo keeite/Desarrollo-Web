@@ -15,12 +15,14 @@ public class Pedido {
     private int id,amountItems;
     private float totalPrice;
     private java.sql.Date date;
+    
 
     public Pedido(int id,int amountItems,float totalPrice,java.sql.Date date){
         this.id = id;
         this.amountItems = amountItems;
         this.totalPrice = totalPrice;
         this.date = date;
+        
     }
     public int getId() {
         return id;
@@ -37,6 +39,7 @@ public class Pedido {
     public Date getDate() {
         return date;
     }
+    
     
     
 }

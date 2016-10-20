@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.ausiasmarch.carritogson.control.dao.BoneCpConnection;
+import net.ausiasmarch.carritogson.model.Usuario;
 
 /**
  *
@@ -51,22 +52,26 @@ public class Login extends HttpServlet {
                 json.put("status", 200);
                 BoneCpConnection cp = new BoneCpConnection();
                 Connection conn = cp.getConnection();
-                String query = "SELECT id,password FROM users WHERE username = ?";
-                int id = -1;
+                String query = "SELECT * FROM users WHERE username = ?";
+                
                 PreparedStatement ps = conn.prepareStatement(query);
                 ps.setString(1, request.getParameter("username"));
                 ResultSet rs = ps.executeQuery();
-                String name = null;
+               
+                Usuario user = null;
                 while(rs.next()){
-                    name = rs.getString("password");
-                    id = rs.getInt("id");
+                    user = new Usuario();
+                    user.setId(rs.getInt(1));
+                    user.setUsername(rs.getString(2));
+                    user.setHash(rs.getString(3));
+                    user.setRank(rs.getInt(4));
                 }  
                 
-                if (name != null) {
+                if (user != null) {
 
-                    if (name.equals(request.getParameter("pwd"))) {
+                    if (user.getHash().equalsIgnoreCase(request.getParameter("pwd"))) {
                         request.getSession().setAttribute("isloged", true);
-                        request.getSession().setAttribute("userId", id);
+                        request.getSession().setAttribute("user", user);
                         json.put("message", true);
                     } else {
                         json.put("message", "Pass_No_Found");

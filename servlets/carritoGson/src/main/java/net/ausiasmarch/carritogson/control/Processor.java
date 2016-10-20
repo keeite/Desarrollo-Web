@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import net.ausiasmarch.carritogson.control.dao.StockDAO;
 import net.ausiasmarch.carritogson.model.Pedido;
 import net.ausiasmarch.carritogson.model.Producto;
+import net.ausiasmarch.carritogson.model.Usuario;
 
 /**
  *
@@ -38,7 +39,7 @@ public class Processor extends HttpServlet {
             
             
             List<Producto> carro = session.getAttribute("carro") == null ? new ArrayList() : (List<Producto>) session.getAttribute("carro");
-            int userId = (int) session.getAttribute("userId");
+            int userId = ((Usuario)session.getAttribute("user")).getId();
             session.setAttribute("carro", carro);
             
             
@@ -96,6 +97,17 @@ public class Processor extends HttpServlet {
         
         Producto p = stDAO.getProducto(id);
         
+        for(Producto pr: carro){
+            if(pr.getId() == p.getId()){
+                int total = pr.getAmount() + amount;
+                if(total <= p.getAmount()) {
+                    pr.setAmount(total);
+                    return getMessageJson(200,"Item added");
+                }else{
+                    return getMessageJson(409,"Not there Enough");
+                }   
+            }  
+        }
         if(p.getAmount() >= amount){
             p.setAmount(amount);
             carro.add(p);
@@ -124,6 +136,7 @@ public class Processor extends HttpServlet {
     private String checkOut(List<Producto> carro,int userId) {
 
         if(stDAO.checkout(carro, userId)){
+            carro.clear();
             return getMessageJson(200,"CheckOut OK");
         }else{
             return getMessageJson(409,"CheckOut Fail");

@@ -13,12 +13,14 @@ public class Producto {
     private int id,amount;
     private float price;
     private String desc;
+    private String image;
     
-    public Producto(int id,String desc,int amount,float price){
+    public Producto(int id,String desc,int amount,float price, String image){
         this.id = id;
         this.amount = amount;
         this.desc = desc;
         this.price = price;
+        this.image = image;
     }
     public Producto(){}
     
@@ -55,6 +57,12 @@ public class Producto {
     }
        
     public Producto clone(){ 
-        return new Producto(id,desc,amount,price);
+        return new Producto(id,desc,amount,price,image);
+    }
+    public String getImage(){
+        return image;
+    }
+    public void setImage(String image){
+        this.image = image;
     }
 }

@@ -25,8 +25,7 @@ and open the template in the editor.
     margin-bottom: 5px;
     
 }
-.article > h3 {
-    border-bottom: 1px solid black;
+.h3 {
     text-align: center;
 }
 .article > div > p{
@@ -42,4 +41,16 @@ form.add{
 form.add > input.amount{
     
     width: 100px !important;
+}
+
+.image{
+    width: 40%;
+    height: 40%;
+    
+}
+.image,.content{
+    display: inline-block;
+}
+.content{
+    float: right;
 }

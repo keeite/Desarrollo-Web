@@ -43,6 +43,7 @@ public class StockDAO {
                 p.setDesc(rs.getString("description"));
                 p.setPrice(rs.getFloat("price"));
                 p.setAmount(rs.getInt("amount"));
+                p.setImage(rs.getString("image"));
                 stock.add(p);
             }
             conn.close();
@@ -68,6 +69,7 @@ public class StockDAO {
                 p.setDesc(rs.getString("description"));
                 p.setPrice(rs.getFloat("price"));
                 p.setAmount(rs.getInt("amount"));
+                p.setImage(rs.getString("image"));
 
             }
             conn.close();
