@@ -1,0 +1,47 @@
+<section class="container">
+    <article class="row">
+        <div class="col-md-12 well"><h1 class="text-center">Carrito</h1></div>
+    </article>   
+</section>
+<section class="container" id="content">
+    <article class="row">
+        <section class="col-md-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio/ud</th>
+                        <th>Precio total</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody id="carro">                            
+                </tbody>
+            </table>
+            <script>fillCarrito();</script>
+        </section>
+    </article>
+    <article class="row">
+        <section class="col-md-3 col-md-offset-9">
+
+            <table class="table table-bordered" id="total">
+                <tr>
+                    <td>Total sin iva</td>
+                    <td id="siniva">40</td>
+                </tr>
+                <tr>
+                    <td>Iva a aplicar</td>
+                    <td>21%</td>
+                </tr>
+                <tr>
+                    <td>Total con iva</td>
+                    <td id="coniva">45</td>
+                </tr>
+            </table>
+            <button id="buy" class="btn btn-success" onclick="checkout()">Comprar</button>
+            <button id="empty" class="btn btn-danger" onclick="empty()">Vaciar</button>
+        </section>
+    </article>
+
+</section>

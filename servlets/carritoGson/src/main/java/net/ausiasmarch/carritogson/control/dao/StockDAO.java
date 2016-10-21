@@ -97,15 +97,23 @@ public class StockDAO {
             rs.next();
             int idPedido = rs.getInt(1);
             if (idPedido == -1) {
+                conn.rollback();
                 return false;
             }
 
             for (Producto p : carro) {
-                query = "UPDATE stock SET amount=amount - ? WHERE amount >= ? AND id = ?;";
+                query = "SELECT amount FROM stock WHERE id=" + p.getId();
+                Statement st = conn.createStatement();
+                rs = st.executeQuery(query);
+                rs.next();
+                if(rs.getInt(1) < p.getAmount()) {
+                    conn.rollback();
+                    return false;
+                }
+                query = "UPDATE stock SET amount=amount - ? WHERE id = ?;";
                 ps = conn.prepareStatement(query);
                 ps.setInt(1, p.getAmount());
-                ps.setInt(2, p.getAmount());
-                ps.setInt(3, p.getId());
+                ps.setInt(2, p.getId());
                 ps.execute();
                 query = "INSERT INTO itemspedidos VALUES(?,?,?,?)";
                 ps = conn.prepareStatement(query);

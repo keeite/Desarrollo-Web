@@ -25,7 +25,6 @@
         <title>Shop</title>
     </head>
     <body>
-         <jsp:include page="nav.jsp" />
         <section class="container">
             <article class="row" id="stock">
                 <script>fillStock();</script>

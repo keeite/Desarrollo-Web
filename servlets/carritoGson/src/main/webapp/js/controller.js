@@ -1,13 +1,6 @@
 $(document).ready(init);
 
-var ajax = {
-    url: "",
-    type: "GET",
-    dataType: "json",
-    data: null,
-    success: null,
-    error: null
-};
+
 $.fn.serializeObject = function ()
 {
     var o = {};
@@ -26,11 +19,9 @@ $.fn.serializeObject = function ()
 };
 
 function init() {
-    $("#button").on("click", login);
-    paintItemMenuSelected();
-    //routes();
-    //Path.root("#/home");
-    //Path.listen();
+    routes(getUserLoged);
+//    Path.root("#/home");
+//    Path.listen();    
 }
 
 function login() {
@@ -47,36 +38,37 @@ function login() {
     }
     data.pwd = forge_sha256(data.pwd);
 
-    ajax.url = "login";
-    ajax.data = data;
-    ajax.success = function (source) {
+    $.ajax({
+        url: "login",
+        type: "GET",
+        dataType: "json",
+        data: data,
+        success: function (source) {
 
-        if (source.status == 200) {
-            switch (source.message) {
-                case true :
-                    $(location).attr("href", "shop.jsp");
-                    break;
-                case "User_No_Found":
-                    $("#panelError").show();
-                    $("#errorMessage").html("Usuario no encontrado");
-                    break;
-                case "Pass_No_Found":
-                    $("#panelError").show();
-                    $("#errorMessage").html("Contraseña erronea");
-                    break;
+            if (source.status == 200) {
+                switch (source.message) {
+                    case true :
+                        $(location).attr("href", "#shop");
+                        break;
+                    case "User_No_Found":
+                        $("#panelError").show();
+                        $("#errorMessage").html("Usuario no encontrado");
+                        break;
+                    case "Pass_No_Found":
+                        $("#panelError").show();
+                        $("#errorMessage").html("Contraseña erronea");
+                        break;
+                    case "user_exist":
+                        $("#panelError").show();
+                        $("#errorMessage").html("Ese nombre ya esta en uso");
+                        break;
+                }
+            } else {
+                alert(source.message);
             }
-        } else {
-            alert(source.message);
         }
-    };
-    ajax.error = function (source) {
-
-    };
-    $.ajax(ajax);
+    });
     return false;
-
-
-
 }
 
 function fillStock() {
@@ -154,7 +146,7 @@ function closeSession() {
         data: "ob=close",
         success: function (data) {
             if (data.message == "Session Closed") {
-                $(location).attr("href", "index.jsp");
+                $(location).attr("href", "#home");
             }
         },
         error: function (data) {
@@ -166,11 +158,11 @@ function closeSession() {
 
 function updateTotalCart() {
     var tdTotal = $(".totalPrice").toArray();
-    if(tdTotal.length == 0) {
+    if (tdTotal.length == 0) {
         $("#buy").addClass("disabled");
-        $("#buy").attr("onclick","");
+        $("#buy").attr("onclick", "");
         $("#empty").addClass("disabled");
-        $("#empty").attr("onclick","");
+        $("#empty").attr("onclick", "");
     }
     var total = 0;
     for (var i = 0; i < tdTotal.length; i++) {
@@ -294,46 +286,68 @@ function empty() {
     });
 }
 
-function routes() {
-
-    Path.map("#/home").to(function () {
-        $(location).attr("href", "shop.jsp");
-        $('.nav li').removeClass('active');
-        $("#home").attr("class", "active");
-
+function routes(userloged) {
+    
+    Path.map("#home").to(function () {
+        userloged();
+        $("nav").css("display","none");
+        $("#body").load('login.html');
+        
         return false;
     });
 
-    Path.map("#/carrito").to(function () {
-        $(location).attr("href", "carrito.jsp");
+    Path.map("#shop").to(function () {
+        userloged();
+        $("nav").css("display","block");
+        $("#body").load('shop.html');
         $('.nav li').removeClass('active');
-        $("#carro").attr("class", "active");
+        $("#shop").attr("class", "active");
+        return false;
+    });
+    
+    Path.map("#carrito").to(function () {
+        userloged();
+        $("nav").css("display","block");
+        $("#body").load("carrito.html");
+        $('.nav li').removeClass('active');
+        $("#carrito").attr("class", "active");
         return false;
     });
 
-    Path.map("#/pedidos").to(function () {
-        $(location).attr("href", "pedidos.jsp");
+    Path.map("#pedidos").to(function () {
+        userloged();
+        $("nav").css("display","block");
+        $("#body").load("pedidos.html");
         $('.nav li').removeClass('active');
         $("#pedido").attr("class", "active");
         return false;
     });
 
+    Path.root("#home");
+    Path.listen();
 }
 
-function paintItemMenuSelected() {
-    var page = $(location).attr('pathname');
-    $('.nav li').removeClass('active');
-
-    switch (page) {
-        case "/shop.jsp":
-            $("#shop").attr("class", "active");
-            break;
-        case "/carrito.jsp":
-            $("#carrito").attr("class", "active");
-            break;
-        case "/pedidos.jsp":
-            $("#pedido").attr("class", "active");
-            break;
-    }
-
+function getUserLoged(){
+    
+    $.ajax({
+        url: "login",
+        type:"GET",
+        dataType: "json",
+        data :"type=loged",
+        success: function(data){
+            if(data.status != 200){
+                $(location).attr("href","#home");
+            }else{
+                if(data.message.rank != 1){
+                   $("#admin").empty();
+                }else{
+                   var a = '<a href="#admin"><span class="glyphicon glyphicon-user"></span> Administracion</a>';
+                   $("#admin").empty().append(a);
+                }
+            }
+        }
+        
+        
+    });
+    
 }

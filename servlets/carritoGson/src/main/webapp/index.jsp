@@ -15,15 +15,21 @@
         <script src="js/forge-sha256.min.js" type="text/javascript"></script>
         <script src="js/controller.js" type="text/javascript"></script>
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
-        <title>Login</title>
+        <title>Mi shop</title>
     </head>
     <body>
         <section class="container">
             <article class="col-md-4 col-md-offset-4" id="login">
                 <div class="panel panel-success">
-                    <div class="panel-heading">Login</div>
+                    <div class="panel-heading">
+                        <div class="btn-group btn-group-justified">
+                            <a href="#" id="log-in" class="btn btn-primary disabled">Login</a>
+                            <a href="#" id="register" class="btn btn-primary">Registrarse</a>
+                            
+                        </div>
+                    </div>
                     <div class="panel-body">
-                        <form method="post" id="form">
+                        <form id="form">
                             <div class="form-group">
                                 <label for="username">Username:</label>
                                 <input type="text" class="form-control" name="username" id="username" placeholder="Dani" required>
@@ -32,6 +38,7 @@
                                 <label for="pwd">Password:</label>
                                 <input type="password" class="form-control" name="pwd" placeholder="root" required>
                             </div>
+                            <input id="type" type="hidden" name="type" value="login">
                             <button type="submit" id="button" class="btn btn-default">Login</button>
                         </form>
                     </div>

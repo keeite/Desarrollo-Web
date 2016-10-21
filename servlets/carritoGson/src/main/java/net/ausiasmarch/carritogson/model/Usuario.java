@@ -5,13 +5,18 @@
  */
 package net.ausiasmarch.carritogson.model;
 
+import com.google.gson.annotations.Expose;
+
 /**
  *
  * @author Dani
  */
 public class Usuario {
+    @Expose
     int id,rank;
-    String hash,username;
+    String hash;
+    @Expose
+    String username;
 
     public int getId() {
         return id;
