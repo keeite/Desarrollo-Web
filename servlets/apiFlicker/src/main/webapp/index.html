@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Flicker</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <h1>Hello World!</h1>
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="tag">Tags:</label>
+                            <input type="text" class="form-control" id="tag">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <section class="row">
+                <div id="images" class="col-md-12" style="margin-top: 40px">  
+                </div>
+            </section>
+        </div>
+        <script>
+            function jsonFlickrFeed(data) {
+                for (var i = 0; i < data.items.length; i++) {
+                    $("#images").append('<img class="img-thumbnail img-responsive" src="' + data.items[i].media.m + '">')
+                }
+                $("#images").append()
+            }
+            
+            $("form").submit(function () {
+                $("#images").empty();
+                $.ajax({
+                    url: "http://api.flickr.com/services/feeds/photos_public.gne?format=json&tags=" + $("#tag").val(),
+                    dataType: "jsonp",
+                    jsonp: "callback"
+
+                });
+                return false;
+            });
+        </script>
+    </body>
+</html>

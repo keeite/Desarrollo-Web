@@ -286,28 +286,29 @@ function empty() {
     });
 }
 
+
 function routes(userloged) {
-    
+
     Path.map("#home").to(function () {
         userloged();
-        $("nav").css("display","none");
+        $("nav").css("display", "none");
         $("#body").load('login.html');
-        
+
         return false;
     });
 
     Path.map("#shop").to(function () {
         userloged();
-        $("nav").css("display","block");
+        $("nav").css("display", "block");
         $("#body").load('shop.html');
         $('.nav li').removeClass('active');
         $("#shop").attr("class", "active");
         return false;
     });
-    
+
     Path.map("#carrito").to(function () {
         userloged();
-        $("nav").css("display","block");
+        $("nav").css("display", "block");
         $("#body").load("carrito.html");
         $('.nav li').removeClass('active');
         $("#carrito").attr("class", "active");
@@ -316,10 +317,18 @@ function routes(userloged) {
 
     Path.map("#pedidos").to(function () {
         userloged();
-        $("nav").css("display","block");
+        $("nav").css("display", "block");
         $("#body").load("pedidos.html");
         $('.nav li').removeClass('active');
         $("#pedido").attr("class", "active");
+        return false;
+    });
+    Path.map("#admin").to(function () {
+        userloged();
+        $("nav").css("display", "block");
+        $("#body").load("admin.html");
+        $('.nav li').removeClass('active');
+        $("#admin").attr("class", "active");
         return false;
     });
 
@@ -327,27 +336,27 @@ function routes(userloged) {
     Path.listen();
 }
 
-function getUserLoged(){
-    
+function getUserLoged() {
+
     $.ajax({
         url: "login",
-        type:"GET",
+        type: "GET",
         dataType: "json",
-        data :"type=loged",
-        success: function(data){
-            if(data.status != 200){
-                $(location).attr("href","#home");
-            }else{
-                if(data.message.rank != 1){
-                   $("#admin").empty();
-                }else{
-                   var a = '<a href="#admin"><span class="glyphicon glyphicon-user"></span> Administracion</a>';
-                   $("#admin").empty().append(a);
+        data: "type=loged",
+        success: function (data) {
+            if (data.status != 200) {
+                $(location).attr("href", "#home");
+            } else {
+                if (data.message.rank != 1) {
+                    $("#admins").empty();
+                } else {
+                    var a = '<a href="#admin"><span class="glyphicon glyphicon-user"></span> Administracion</a>';
+                    $("#admins").empty().append(a);
                 }
             }
         }
-        
-        
     });
-    
+
 }
+
+

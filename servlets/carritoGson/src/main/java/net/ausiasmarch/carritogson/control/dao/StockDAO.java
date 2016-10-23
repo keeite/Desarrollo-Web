@@ -162,4 +162,22 @@ public class StockDAO {
         }
         
     }
+    
+    public void create(Producto p){
+        
+        try {
+            Connection conn = cp.getConnection();
+            String query = "INSERT INTO stock VALUES(NULL,?,?,?,?)";    
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, query);
+            ps.setFloat(2, p.getPrice());
+            ps.setInt(3, p.getAmount());
+            ps.setString(4, p.getImage());
+            
+            ps.execute();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(StockDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
