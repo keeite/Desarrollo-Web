@@ -42,7 +42,7 @@ public class Cuadrante extends HttpServlet {
             int rows = Integer.valueOf(request.getParameter("row"));
             int cols = Integer.valueOf(request.getParameter("col"));
             String position = request.getParameter("position");
-            int random =(int) (Math.random()*4000+1000);
+            int random =(int) (Math.random()*14000+1000);
             System.out.println(random);
             Thread.sleep(random);
             

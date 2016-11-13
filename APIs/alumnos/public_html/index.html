@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2">
+                    <h2>Actualizar o crear</h2>
+                    <form id="add">
+                        <select class="form-control" id="id" name="id"></select>
+                        <input type="text" class="form-control" name="nombre" placeholder="nombre" id="nombre">
+                        <input type="text" class="form-control" name="apellido1" placeholder="Apellido 1" id="ape1">
+                        <input type="text" class="form-control" name="apellido2" placeholder="Apellido 2" id="ape2">
+                        <input type="number" class="form-control" name="id_usuario" placeholder="Id de usuario" id="idusu">
+                        <button type="submit" class="btn btn-default">Enviar</button>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <h2>Eliminar</h2>
+                    <form id="delete">
+                        <div class="form-group">
+                            <label for="sel1">Id alumno:</label>
+                            <select class="form-control" id="ids" name="id"></select>
+                        </div>             
+                        <button type="submit" class="btn btn-default">Borrar</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+
+                    <table class="table table-triggered">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Apellido 1</th>
+                                <th>Apellido 2</th>
+                                <th>Usuario</th>
+                            </tr>
+                        </thead>
+                        <tbody id="datos"></tbody>
+                    </table>
+                    <ul id="pager" class="pagination"></ul>
+                </div>
+            </div>
+        </div>
+        <script>
+            var URL_SERVER = "http://localhost:8081/zylkanexy/json";
+            $.fn.serializeObject = function ()
+            {
+                var o = {};
+                var a = this.serializeArray();
+                $.each(a, function () {
+                    if (o[this.name] !== undefined) {
+                        if (!o[this.name].push) {
+                            o[this.name] = [o[this.name]];
+                        }
+                        o[this.name].push(this.value || '');
+                    } else {
+                        o[this.name] = encodeURIComponent(this.value) || '';
+                    }
+                });
+                return o;
+            };
+
+            function fillids() {
+                $.ajax({
+                    url: URL_SERVER + "?ob=alumno&op=getall",
+                    datatype: "json",
+                    type: "GET",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function (data) {
+                        $("#ids").empty();
+                        $("#id").empty();
+                        var content = "<option>0</option>";
+                        for (var i = 0; i < data.message.length; i++) {
+                            content += "<option>" + data.message[i].id + "</option>";
+                        }
+                        $("#id").append(content);
+
+                        var content2 = "";
+                        for (var i = 0; i < data.message.length; i++) {
+                            content2 += "<option>" + data.message[i].id + "</option>";
+                        }
+                        $("#ids").append(content2);
+                    }
+                });
+
+            }
+
+
+
+            var calls = {
+                getCount: function () {
+                    return $.ajax({url: URL_SERVER, dataType: "json", data: {ob: "alumno", op: "getcount"}, type: "GET", xhrFields: {withCredentials: true}});
+                },
+                login: function () {
+                    return $.ajax({url: URL_SERVER + "?ob=usuario&op=login&user=rafael&pass=rafael", datatype: "json", type: "GET", xhrFields: {withCredentials: true}});
+                },
+                get: function (id) {
+                    return $.ajax({url: URL_SERVER + "?ob=alumno&op=get&id=" + id, datatype: "json", type: "GET", xhrFields: {withCredentials: true}});
+                },
+                remove: function (id) {
+                    return $.ajax({url: URL_SERVER + "?ob=alumno&op=remove&id=" + id, datatype: "json", type: "GET", xhrFields: {withCredentials: true}});
+                },
+                set: function (json) {
+                    return $.ajax({url: URL_SERVER + "?ob=alumno&op=set&json=" + json, datatype: "json", type: "GET", xhrFields: {withCredentials: true}});
+                },
+                getPage: function (rpp, page) {
+                    return $.ajax({url: URL_SERVER + "?ob=alumno&op=getpage&rpp=" + rpp + "&page=" + page, datatype: "json", type: "GET", xhrFields: {withCredentials: true}});
+                }
+            }
+            calls.login().done(function (data) {
+                if (data.status == 200) fillids();
+            });
+
+            $("#id").change(function () {
+                var id = $("#id").val();
+                calls.get(id).done(function (data) {
+                    $("#nombre").val(data.message.nombre);
+                    $("#ape1").val(data.message.apellido1);
+                    $("#ape2").val(data.message.apellido2);
+                    $("#idusu").val(data.message.ob_usuario.id);
+                });
+            });
+
+            $("#delete").submit(function () {
+                calls.remove($("#ids").val()).done(function (data) {
+                    if (data.status == 200) {
+                        alert("alumno eliminado");
+                        $(location).attr("href","");
+                        
+                    }
+                });
+                
+                return false;
+            });
+
+            $("#add").submit(function () {
+                var data = $("#add").serializeObject();
+                data.id_usuario = Number(data.id_usuario);
+                data.id = Number(data.id);
+                data = encodeURIComponent(JSON.stringify(data));
+                calls.set(data).done(function (data) {
+                    if (data.status == 200) {
+                        alert("alumno creado o actualizado");
+                        $(location).attr("href","");
+                    }
+                });
+                return false;
+            });
+
+
+            calls.getCount().done(function (data) {
+                var count = data.message;
+                var rpp = 15;
+                var pages = Math.ceil(count / rpp);
+
+                calls.getPage(rpp, 1).done(function (data) {
+                    data.message.forEach(function (item) {
+                        var content = "<tr>";
+                        content += "<td>" + item.id + "</td>";
+                        content += "<td>" + item.nombre + "</td>";
+                        content += "<td>" + item.apellido1 + "</td>";
+                        content += "<td>" + item.apellido2 + "</td>";
+                        content += "<td>" + item.ob_usuario.nombre + "</td>";
+                        content += "</tr>";
+                        $("#datos").append(content);
+                    });
+                });
+                for (var i = 1; i <= pages; i++) {
+                    $("#pager").append('<li><a id="p' + i + '" href="#">' + i + '</a></li>');
+                    $("#p" + i).click(i,function (index) {
+                        $("#datos").empty();
+                        calls.getPage(rpp, index.data).done(function (data) {
+                            data.message.forEach(function (item) {
+                                var content = "<tr>";
+                                content += "<td>" + item.id + "</td>";
+                                content += "<td>" + item.nombre + "</td>";
+                                content += "<td>" + item.apellido1 + "</td>";
+                                content += "<td>" + item.apellido2 + "</td>";
+                                content += "<td>" + item.ob_usuario.nombre + "</td>";
+                                content += "</tr>";
+                                $("#datos").append(content);
+
+                            });
+                        });
+                    });
+                }
+            });
+
+//            var nombres = ["Santiago", "Sebastián", "Diego", "Nicolás", "Samuel", "Alejandro", "Daniel", "Mateo", "Ángel", "Matías"];
+//            var apellidos = ["Garcia", "Lopez", "Perez", "Gonzalez", "Sanchez", "Martinez", "Rodriguez", "Fernandez", "Gomez", "Martin"];
+//            for (var i = 0; i < 150; i++) {
+//                var o = {
+//                    id: 0,
+//                    nombre: nombres[Math.floor((Math.random() * 10) + 1)],
+//                    apellido1: apellidos[Math.floor((Math.random() * 10) + 1)],
+//                    apellido2: apellidos[Math.floor((Math.random() * 10) + 1)],
+//                    id_usuario: Math.floor((Math.random() * 20) + 1)
+//                }
+//
+//                $.ajax({
+//                    url: URL_SERVER + "?ob=alumno&op=set&json=" + encodeURIComponent(JSON.stringify(o)),
+//                    datatype: "json",
+//                    type: "GET",
+//                    xhrFields: {withCredentials: true},
+//                    success: function (data) {}
+//                });
+//            }
+        </script>
+    </body>
+</html>
