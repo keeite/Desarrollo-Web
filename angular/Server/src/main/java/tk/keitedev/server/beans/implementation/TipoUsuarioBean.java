@@ -6,6 +6,7 @@
 package tk.keitedev.server.beans.implementation;
 
 import com.google.gson.annotations.Expose;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import tk.keitedev.server.beans.interfaces.InterfaceBean;
@@ -14,7 +15,7 @@ import tk.keitedev.server.beans.interfaces.InterfaceBean;
  *
  * @author Dani
  */
-class Tipo_usuario implements InterfaceBean {
+class TipoUsuarioBean implements InterfaceBean {
 
     @Expose
     private int id;
@@ -40,7 +41,7 @@ class Tipo_usuario implements InterfaceBean {
     
     
     @Override
-    public void fill(ResultSet rs, int expand) throws SQLException {
+    public void fill(ResultSet rs,Connection conn, int expand) throws SQLException {
         this.id = rs.getInt("id");
         this.tipo = rs.getString("tipo");
     }

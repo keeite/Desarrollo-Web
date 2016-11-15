@@ -21,25 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package tk.keitedev.server.dao.interfaces;
+package tk.keitedev.server.beans.implementation;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import tk.keitedev.server.beans.implementation.FilterBean;
-import tk.keitedev.server.beans.implementation.OrderBean;
+import tk.keitedev.server.beans.interfaces.InterfaceSqlBean;
 
 /**
  *
  * @author Dani
  */
-public interface ViewDaoInterface<BeanSelected> {
+public class OrderBean implements InterfaceSqlBean {
+    private String field;
+    private String order;
     
-    public Long getCount(List<FilterBean> filters) throws SQLException;
+    public String getField() {
+        return field;
+    }
 
-    public List<BeanSelected> getPage(int intRegsPerPag, int intPage, List<FilterBean> filters, List<OrderBean> orders, Integer expand) throws SQLException;
+    public void setField(String field) {
+        this.field = field;
+    }
 
-    public List<BeanSelected> getAll(List<FilterBean> filters, List<OrderBean> orders, Integer expand) throws SQLException;
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+     
+    @Override
+    public String getSQL() {
+        return " " + field + " " + order;
+    }
 }

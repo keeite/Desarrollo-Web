@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Dani.
+ * Copyright 2016 a044887852v.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,25 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package tk.keitedev.server.dao.interfaces;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import tk.keitedev.server.beans.implementation.FilterBean;
-import tk.keitedev.server.beans.implementation.OrderBean;
+package tk.keitedev.server.beans.interfaces;
 
 /**
  *
- * @author Dani
+ * @author a044887852v
  */
-public interface ViewDaoInterface<BeanSelected> {
-    
-    public Long getCount(List<FilterBean> filters) throws SQLException;
-
-    public List<BeanSelected> getPage(int intRegsPerPag, int intPage, List<FilterBean> filters, List<OrderBean> orders, Integer expand) throws SQLException;
-
-    public List<BeanSelected> getAll(List<FilterBean> filters, List<OrderBean> orders, Integer expand) throws SQLException;
+public interface InterfaceSqlBean {
+    public String getSQL();
 }

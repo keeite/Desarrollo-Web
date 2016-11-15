@@ -21,25 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package tk.keitedev.server.dao.interfaces;
+package tk.keitedev.server.helpers;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import tk.keitedev.server.beans.implementation.FilterBean;
-import tk.keitedev.server.beans.implementation.OrderBean;
+import javax.servlet.http.HttpServletRequest;
+import tk.keitedev.server.beans.implementation.UsuarioBean;
 
 /**
  *
  * @author Dani
  */
-public interface ViewDaoInterface<BeanSelected> {
+public class UserHelper {
     
-    public Long getCount(List<FilterBean> filters) throws SQLException;
-
-    public List<BeanSelected> getPage(int intRegsPerPag, int intPage, List<FilterBean> filters, List<OrderBean> orders, Integer expand) throws SQLException;
-
-    public List<BeanSelected> getAll(List<FilterBean> filters, List<OrderBean> orders, Integer expand) throws SQLException;
+    public static boolean checkPermission(HttpServletRequest request,String operation){
+        return true;
+//return (UsuarioBean)request.getSession().getAttribute("user") == null? false: true;
+    }
 }

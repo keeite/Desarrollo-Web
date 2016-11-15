@@ -21,25 +21,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package tk.keitedev.server.dao.interfaces;
+package beans;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import tk.keitedev.server.beans.implementation.FilterBean;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
 import tk.keitedev.server.beans.implementation.OrderBean;
 
 /**
  *
  * @author Dani
  */
-public interface ViewDaoInterface<BeanSelected> {
+public class TestBeans {
     
-    public Long getCount(List<FilterBean> filters) throws SQLException;
-
-    public List<BeanSelected> getPage(int intRegsPerPag, int intPage, List<FilterBean> filters, List<OrderBean> orders, Integer expand) throws SQLException;
-
-    public List<BeanSelected> getAll(List<FilterBean> filters, List<OrderBean> orders, Integer expand) throws SQLException;
+    public TestBeans() {
+    }
+    
+    @BeforeClass
+    public static void setUpClass() {
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    @Before
+    public void setUp() {
+    }
+    
+    @After
+    public void tearDown() {
+    }
+    @Test   
+    public void OrderBean(){
+        OrderBean o = new OrderBean();
+        o.setField("name");
+        o.setOrder("ASC");
+        assertEquals("name ASC",o.getSQL());
+    }
+    // TODO add test methods here.
+    // The methods must be annotated with annotation @Test. For example:
+    //
+    // @Test
+    // public void hello() {}
 }

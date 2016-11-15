@@ -6,6 +6,7 @@
 package tk.keitedev.server.beans.implementation;
 
 import com.google.gson.annotations.Expose;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import tk.keitedev.server.beans.interfaces.InterfaceBean;
@@ -14,7 +15,7 @@ import tk.keitedev.server.beans.interfaces.InterfaceBean;
  *
  * @author Dani
  */
-public class Usuario implements InterfaceBean{
+public class UsuarioBean implements InterfaceBean{
     @Expose
     private int id;
     @Expose
@@ -24,7 +25,7 @@ public class Usuario implements InterfaceBean{
     @Expose(serialize = false)
     private int id_tipo_usuario;
     @Expose(deserialize = false)
-    private Tipo_usuario ob_tipo_usuario;
+    private TipoUsuarioBean ob_tipo_usuario;
 
     public int getId() {
         return id;
@@ -90,18 +91,18 @@ public class Usuario implements InterfaceBean{
         this.id_tipo_usuario = id_tipo_usuario;
     }
 
-    public Tipo_usuario getOb_tipo_usuario() {
+    public TipoUsuarioBean getOb_tipo_usuario() {
         return ob_tipo_usuario;
     }
 
-    public void setOb_tipo_usuario(Tipo_usuario ob_tipo_usuario) {
+    public void setOb_tipo_usuario(TipoUsuarioBean ob_tipo_usuario) {
         this.ob_tipo_usuario = ob_tipo_usuario;
     }
 
     
     
     @Override
-    public void fill(ResultSet rs,int expand) throws SQLException {
+    public void fill(ResultSet rs,Connection conn,int expand) throws SQLException {
         this.id = rs.getInt("id");
         this.nombre = rs.getString("nombre");
         this.apellido1 = rs.getString("apellido1");

@@ -5,6 +5,7 @@
  */
 package tk.keitedev.server.data.interfaces;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -14,7 +15,8 @@ import java.sql.SQLException;
  */
 public interface DataInterface {
     
-    public String getId(String table, String field, String value) throws SQLException;
+    public void setConnection(Connection conn);
+    public Long getId(String table, String field, String value) throws SQLException;
 
     public String getOne(String query, String field, int id) throws SQLException;
 

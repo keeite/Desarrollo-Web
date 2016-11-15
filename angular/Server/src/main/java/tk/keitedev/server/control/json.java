@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tk.keitedev.server.beans.implementation.ReplyBean;
+import tk.keitedev.server.configuration.SqlConfig;
 import tk.keitedev.server.connection.implementations.BoneCPConnection;
 import tk.keitedev.server.connection.interfaces.ConnectionInterface;
 import tk.keitedev.server.helpers.ParameterCook;
@@ -52,12 +53,12 @@ public class json extends HttpServlet {
             String op = ParameterCook.prepareOperation(request);
             
             if ("".equals(op) && "".equals(ob)) {
-                Connection oConnection = null;
-                ConnectionInterface oDataConnectionSource = null;
+                Connection conn = null;
+                ConnectionInterface source = null;
                 try {
-                    oDataConnectionSource = BoneCPConnection.getInstance();
-                    oConnection = oDataConnectionSource.getConection();
-                    if (oConnection.isValid(10)) {
+                    source = SqlConfig.getSource();
+                    conn = source.getConection();
+                    if (conn.isValid(10)) {
                         sendResponseHtml(request, response, "Server", "<p>the server is up and running on " + request.getLocalName() + ":" + request.getLocalPort() + "</p><p>Database access OK</p>");
                     } else {
                         sendResponseHtml(request, response, "Server", "<p>the server is up and running on " + request.getLocalName() + ":" + request.getLocalPort() + "</p><p>Database access timeout KO</p>");
@@ -65,28 +66,27 @@ public class json extends HttpServlet {
                 } catch (Exception ex) {
                         sendResponseHtml(request, response, "Server", "the server is up and running on " + request.getLocalName() + ":" + request.getLocalPort() + "</p><p>Database access KO</p>");
                 } finally {
-                    if (oConnection != null) {
-                        oConnection.close();
+                    if (conn != null) {
+                        conn.close();
                     }
-                    if (oDataConnectionSource != null) {
-                        oDataConnectionSource.disposeConections();
-                    }
+                    
                 }
             } else {
                 try {
-                    String strClassName = "net.daw.service.implementation." + ParameterCook.prepareCamelCaseObject(request) + "Service";
+                    String strClassName = "tk.keitedev.server.services.implementation." + ob + "Service";
                     ViewServiceInterface oService = (ViewServiceInterface) Class.forName(strClassName).getDeclaredConstructor(HttpServletRequest.class).newInstance(request);
-                    Method oMethodService = oService.getClass().getMethod(ParameterCook.prepareOperation(request));
+                    Method oMethodService = oService.getClass().getMethod(op);
                     ReplyBean oResult = (ReplyBean) oMethodService.invoke(oService);
                     sendResponseJson(request, response, oResult);
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |NoSuchMethodException ex) {
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |NoSuchMethodException|InvocationTargetException ex) {
                     ReplyBean oReplyBean = new ReplyBean(500, "server error. Please, contact your administrator.");
+                    System.out.println(ex.getMessage());
                     sendResponseJson(request, response, oReplyBean);
                     //Log4j.errorLog(this.getClass().getName() + ":" + (ex.getStackTrace()[0]).getMethodName(), ex);
+                }catch(Exception ex){
+                    //System.out.println(ex.getMessage());
                 }
-            }
-            
-            
+            }           
         }
     }
    
@@ -118,12 +118,12 @@ public class json extends HttpServlet {
     private void sendResponseHtml(HttpServletRequest request, HttpServletResponse response, String title, String message) throws ServletException, IOException {
         request.setAttribute("title", title);
         request.setAttribute("message", message);
-        getServletContext().getRequestDispatcher("/jsp/message.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/jsp/html.jsp").forward(request, response);
     }
 
     private void sendResponseJson(HttpServletRequest request, HttpServletResponse response, ReplyBean oReplyBean) throws IOException, ServletException {
         request.setAttribute("answer", oReplyBean);
-        getServletContext().getRequestDispatcher("/jsp/messageAjax.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/jsp/json.jsp").forward(request, response);
     }
 
 }

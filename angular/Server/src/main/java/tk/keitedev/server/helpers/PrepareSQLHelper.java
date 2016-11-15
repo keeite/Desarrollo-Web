@@ -21,13 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package tk.keitedev.server.dao.interfaces;
+package tk.keitedev.server.helpers;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import tk.keitedev.server.beans.implementation.FilterBean;
 import tk.keitedev.server.beans.implementation.OrderBean;
 
@@ -35,11 +31,31 @@ import tk.keitedev.server.beans.implementation.OrderBean;
  *
  * @author Dani
  */
-public interface ViewDaoInterface<BeanSelected> {
+public class PrepareSQLHelper {
     
-    public Long getCount(List<FilterBean> filters) throws SQLException;
-
-    public List<BeanSelected> getPage(int intRegsPerPag, int intPage, List<FilterBean> filters, List<OrderBean> orders, Integer expand) throws SQLException;
-
-    public List<BeanSelected> getAll(List<FilterBean> filters, List<OrderBean> orders, Integer expand) throws SQLException;
+    
+    public static String preparedGetAll(String query,List<FilterBean> filters,List<OrderBean> orders){
+        if(filters != null){
+            for(FilterBean f : filters){
+                query += f.getSQL();
+            }
+        }
+        if(orders != null){
+            for(OrderBean o : orders){
+                query += o.getSQL();
+            }
+        }
+        return query;
+    }
+    
+    public static String quoted(Object o){
+        if(o instanceof String){
+            return "'" + o + "'";
+        }
+        
+        if(o instanceof Long){
+            return Long.toString((long) o);
+        }
+        return o.toString();
+    }
 }

@@ -26,9 +26,25 @@ public class MysqlData implements DataInterface{
         this.conn = conn;
     }
 
+    public MysqlData() {}
+    
     @Override
-    public String getId(String table, String field, String value) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setConnection(Connection conn){
+        this.conn = conn;
+    }
+    @Override
+    public Long getId(String table, String field, String value) throws SQLException {
+        String query = "SELECT id FROM ? WHERE ? = ?";
+        ps = conn.prepareStatement(query);
+        ps.setString(1, table);
+        ps.setString(2, field);
+        ps.setString(3,value);
+        
+        rs = ps.executeQuery();
+        rs.next();
+        return rs.getLong("id");
+        
+        
     }
 
     @Override
@@ -48,7 +64,7 @@ public class MysqlData implements DataInterface{
 
     @Override
     public ResultSet getAllSQL(String query) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return conn.createStatement().executeQuery(query);
     }
 
     @Override
