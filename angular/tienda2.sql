@@ -29,10 +29,17 @@ CREATE TABLE IF NOT EXISTS `compra` (
   CONSTRAINT `FK_compra_factura` FOREIGN KEY (`id_factura`) REFERENCES `factura` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_compra_producto` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_compra_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Volcando datos para la tabla tienda.compra: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `compra` DISABLE KEYS */;
+INSERT IGNORE INTO `compra` (`id`, `id_usuario`, `id_producto`, `id_factura`, `cantidad`) VALUES
+	(4, 2, 1, NULL, 15),
+	(5, 3, 1, NULL, 11),
+	(6, 2, 4, NULL, 1),
+	(7, 3, 2, NULL, 111),
+	(8, 3, 4, NULL, 32),
+	(9, 4, 4, NULL, 22);
 /*!40000 ALTER TABLE `compra` ENABLE KEYS */;
 
 
@@ -58,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `producto` (
 
 -- Volcando datos para la tabla tienda.producto: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
-INSERT INTO `producto` (`id`, `codigo`, `precio`) VALUES
+INSERT IGNORE INTO `producto` (`id`, `codigo`, `precio`) VALUES
 	(1, 'Flanes', 12.5),
 	(2, 'Gelatinas', 4.5),
 	(3, 'Yogur', 1.2),
@@ -75,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `tipo_usuario` (
 
 -- Volcando datos para la tabla tienda.tipo_usuario: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `tipo_usuario` DISABLE KEYS */;
-INSERT INTO `tipo_usuario` (`id`, `descripcion`) VALUES
+INSERT IGNORE INTO `tipo_usuario` (`id`, `descripcion`) VALUES
 	(1, 'administrador'),
 	(2, 'cliente');
 /*!40000 ALTER TABLE `tipo_usuario` ENABLE KEYS */;
@@ -96,9 +103,9 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   CONSTRAINT `FK_usuario_tipo_usuario` FOREIGN KEY (`id_tipo_usuario`) REFERENCES `tipo_usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Volcando datos para la tabla tienda.usuario: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla tienda.usuario: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` (`id`, `nombre`, `apellido1`, `apellido2`, `dni`, `login`, `password`, `id_tipo_usuario`) VALUES
+INSERT IGNORE INTO `usuario` (`id`, `nombre`, `apellido1`, `apellido2`, `dni`, `login`, `password`, `id_tipo_usuario`) VALUES
 	(2, 'Dani', 'Castillo', 'Lozano', '45652565V', 'dani', '4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2', 1),
 	(3, 'Alvaro', 'Martinez', 'Parrales', '23423411G', 'Alvaro', '4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2', 2),
 	(4, 'Toni', 'Carrasco', 'Gomez', '468455754A', 'Toni', '4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2', 2),
